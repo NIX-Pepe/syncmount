@@ -1,0 +1,4 @@
+[Project]
+Name=syncmount
+Manager=KDevCMakeManager
+VersionControl=kdevgit
