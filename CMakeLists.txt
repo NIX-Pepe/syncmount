@@ -8,10 +8,7 @@ add_definitions("-DFUSE_USE_VERSION=26")
 
 add_executable(syncmount main.cpp wrapsyncfs.cpp)
 
-
-link_directories("../syncfs/build/lib/")
-target_include_directories(syncmount PUBLIC "../syncfs/src/headers/")
-target_link_libraries(syncmount syncfs)
+target_link_libraries(syncmount syncfs fuse)
 # pneuser end
 
 

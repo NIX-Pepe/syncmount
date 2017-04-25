@@ -1,7 +1,9 @@
 #include "wrapsyncfs.h"
 
 #include <fuse.h>
-#include <stdio.h>
+#include <iostream>
+#include <fstream>
+using namespace std;
 
 struct fuse_operations syncfs_oper;
 
@@ -39,25 +41,29 @@ int main(int argc, char **argv) {
 	syncfs_oper.fsyncdir = wrap_fsyncdir;
 	syncfs_oper.init = wrap_init;
 
-	printf("mounting file system...\n");
+	std::cout << "mounting file system...\n";
 	
-	for(i = 1; i < argc && (argv[i][0] == '-'); i++) {
-		if(i == argc) {
-			return (-1);
-		}
+	if(argc < 4)
+    {
+        cout << "Command: syncmount path_to_folder_1 path_to_folder_2 path_to_mnt_point" << "\n"; 
+        return -1;
+    }
+
+	//set_rootdir(realpath(argv[1], NULL),realpath(argv[2], NULL));
+
+    char* argvf[argc-2];
+    int argcf = argc-2;
+    int a = 1;
+    argvf[0] = argv[0];
+	for(i=3; i < argc; i++) {
+		argvf[a] = argv[i];
+        cout << argvf[a] << " " << argcf << "\n";
+        a++;
 	}
 
-	//realpath(...) returns the canonicalized absolute pathname
-	set_rootdir(realpath(argv[i], NULL));
+	fuse_stat = fuse_main(argcf, argvf, &syncfs_oper, NULL);
 
-	for(; i < argc; i++) {
-		argv[i] = argv[i+1];
-	}
-	argc--;
-
-	fuse_stat = fuse_main(argc, argv, &syncfs_oper, NULL);
-
-	printf("fuse_main returned %d\n", fuse_stat);
+	std::cout << "fuse_main returned "<<fuse_stat<<"\n";
 
 	return fuse_stat;
 }

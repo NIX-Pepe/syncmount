@@ -1,8 +1,8 @@
 #include "wrapsyncfs.h"
-#include <syncfs.h>
+#include <syncfs/syncfs.h>
 
-void set_rootdir(const char *path) {
-    SyncFS::Instance()->setRootDir(path);
+void set_rootdir(char *path, char *path2) {
+    SyncFS::Instance()->setRootDir(path, path2);
 }
 
 int wrap_getattr(const char *path, struct stat *statbuf) {
