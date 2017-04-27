@@ -49,7 +49,7 @@ int main(int argc, char **argv) {
         return -1;
     }
 
-	//set_rootdir(realpath(argv[1], NULL),realpath(argv[2], NULL));
+	set_rootdir(realpath(argv[1], NULL),realpath(argv[2], NULL));
 
     char* argvf[argc-2];
     int argcf = argc-2;
